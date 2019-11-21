@@ -5,11 +5,11 @@ __version__ = "01_01"
 
 
 import os
-import sys
 from functools import wraps
 
 
-boold = False
+boold = True
+
 
 
 def function_debugger(function):
@@ -28,46 +28,77 @@ def function_debugger(function):
         if boold: print(f"End {function.__name__}()")
         return return_value
 
-    return wrapper  
+    return wrapper
+
+
+class Matrix:
+
+    @function_debugger
+    def __init__(self, ord):
+        self.grid = []
+        for i in range(0, ord):
+            self.grid.append([])
+        self.ord = ord
+
+    def __str__(self):
+        string = ""
+        for i in range(0, self.ord):
+            string += str(self.grid[i]) + "\n"
+        return string
+
+    def undermatrix(self, line, column):
+        """
+        """
+        undermatrix = Matrix(self.ord - 1)
+        for i in range(0, self.ord):
+            for j in range(0, matrix.ord):
+                if not i == line and not j == column:
+                    undermatrix.grid[i].append
 
 
 @function_debugger
-def check_params():
+def det_ord2(matrix_ord2):
     """
-    Gestione dei parametri per ottenere la stringa e la cartella 
-    contenente i file su cui operare.
-    :return string: str Stringa da cercare.
-    :return folder: str Percorso della cartella in cui cercare.
+    Questa funzione, data una matrice quadrata di ordine 2 restituisce il suo determinante.
+    :param matrice_o2: list, martice di ordine 2 di cui si vuole calcolare i determinante.
+    :return: int, determinante della matrice
     """
-    parametri = sys.argv[1:]
-    if len(parametri) != 2:
-        print("Errato numero di parametri."); exit(-1)
+    primo_prodotto = matrix_ord2[0][0] * matrix_ord2[1][1]
+    secondo_prodotto = matrix_ord2[0][1] * matrix_ord2[1][0]
+    determinante = primo_prodotto - secondo_prodotto
+
+    return determinante
+
+
+@function_debugger
+def det(matrix, ord):
+    if ord == 2:
+        return det_ord2(matrix.grid)
     else:
-        if not os.path.isdir(parametri[1]):
-            print(f"La cartella , {parametri[1]} non esistente"); exit(-1)
-
-    return parametri
-
+        det = 0
+        i = 0
+        for j in range(0, ord):
+            det += ((-1) ** (i + j)) * matrix.grid[i][j] * det(matrix.udermatrix(i,j))
 
 if __name__ == "__main__":
 
     if boold:
         print("Start main")
 
-    stringa, cartella = check_params()
+    ord = 2
 
-    if boold: print(f"Parametri: {stringa} {cartella}")
+    matrix = Matrix(ord)
 
-    for root, dirs, files in os.walk(cartella):
-        for file in files:
-            if file.endswith(".log"):
-                file = os.path.join(root, file)
-                with open(file, "r") as log_file:
-                    linea = 1
-                    for line in log_file:
-                        if stringa in line:
-                            print(f"Stringa '{stringa}' nel file '{file}' alla riga {linea}.")
-                        linea += 1
+    if boold: print(matrix)
+
+    for i in range(0, matrix.ord):
+        for j in range(0, matrix.ord):
+            value = int(input(f"Insert value in position({i},{j}): "))
+            matrix.grid[i].append(value)
+
+    if boold: print(matrix)
+
+    print(det(matrix.grid, matrix.ord))
 
     if boold:
         print("End main")
