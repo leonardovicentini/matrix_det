@@ -50,10 +50,18 @@ class Matrix:
         """
         """
         undermatrix = Matrix(self.ord - 1)
-        for i in range(0, self.ord):
-            for j in range(0, matrix.ord):
-                if not i == line and not j == column:
-                    undermatrix.grid[i].append
+        undermatrix.grid = self.grid[:]
+
+        del undermatrix.grid[line]
+        
+        for i in range(0, undermatrix.ord):
+            #print("sottomatrice:\n",undermatrix,"matrice\n", self, sep = "")
+            print(undermatrix.grid[i][column] is self.grid[i][column])
+            del undermatrix.grid[i][column]
+        
+        if boold: print("Sottomatrice:\n", undermatrix, sep="")
+
+        return undermatrix
 
 
 @function_debugger
@@ -63,29 +71,35 @@ def det_ord2(matrix_ord2):
     :param matrice_o2: list, martice di ordine 2 di cui si vuole calcolare i determinante.
     :return: int, determinante della matrice
     """
-    primo_prodotto = matrix_ord2[0][0] * matrix_ord2[1][1]
-    secondo_prodotto = matrix_ord2[0][1] * matrix_ord2[1][0]
+    primo_prodotto = matrix_ord2.grid[0][0] * matrix_ord2.grid[1][1]
+    secondo_prodotto = matrix_ord2.grid[0][1] * matrix_ord2.grid[1][0]
     determinante = primo_prodotto - secondo_prodotto
+
+    print(f"Determinante di:\n{matrix_ord2}\n= {determinante}")
 
     return determinante
 
 
 @function_debugger
-def det(matrix, ord):
-    if ord == 2:
-        return det_ord2(matrix.grid)
+def det(matrix):
+    if matrix.ord == 2:
+        return det_ord2(matrix)
     else:
-        det = 0
+        determinante = 0
         i = 0
-        for j in range(0, ord):
-            det += ((-1) ** (i + j)) * matrix.grid[i][j] * det(matrix.udermatrix(i,j))
+        for j in range(0, matrix.ord):
+            determinante += ((-1) ** (i + j)) * matrix.grid[i][j] * det(matrix.undermatrix(i,j))
+            print("Matrice di partenza: \n", matrix, sep="")
+            print("Determinante: ", determinante)
+        return determinante
+
 
 if __name__ == "__main__":
 
     if boold:
         print("Start main")
 
-    ord = 2
+    ord = 3
 
     matrix = Matrix(ord)
 
@@ -98,7 +112,11 @@ if __name__ == "__main__":
 
     if boold: print(matrix)
 
-    print(det(matrix.grid, matrix.ord))
+    #print(det(matrix))
+
+    matrix.undermatrix(2, 2)
+
+    print(matrix)
 
     if boold:
         print("End main")
