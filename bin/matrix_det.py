@@ -49,17 +49,22 @@ class Matrix:
     @function_debugger
     def undermatrix(self, line, column):
         """
+        Crea una sottomatrice a partire da quella di partenza eliminando la riga e la colonna indicata.
+        :param line: int Indice della linea da eliminare.
+        :param column: int Indice della colonna da eliminare.
+        :return: Matrix Sottomatrice di quella di partenza.
         """
         undermatrix = Matrix(self.ord - 1)
-        undermatrix.grid = self.grid[:]
+        undermatrix.grid = []
+
+        for subline in self.grid:
+            undermatrix.grid.append(subline.copy())
 
         del undermatrix.grid[line]
         
         for i in range(0, undermatrix.ord):
-            #print("sottomatrice:\n",undermatrix,"matrice\n", self, sep = "")
-            print(undermatrix.grid[i][column] is self.grid[i][column])
             del undermatrix.grid[i][column]
-        
+
         if boold: print("Sottomatrice:\n", undermatrix, sep="")
 
         return undermatrix
@@ -76,13 +81,18 @@ def det_ord2(matrix_ord2):
     secondo_prodotto = matrix_ord2.grid[0][1] * matrix_ord2.grid[1][0]
     determinante = primo_prodotto - secondo_prodotto
 
-    print(f"Determinante di:\n{matrix_ord2}\n= {determinante}")
+    print(f"Determinante di:\n{matrix_ord2}= {determinante}")
 
     return determinante
 
 
 @function_debugger
 def det(matrix):
+    """
+    Data una matrice ne calcola dil determinante.
+    :param matrix: Matrix Matrice di cui calcloare il determinante.
+    :return: float Determinante della matrice
+    """
     if matrix.ord == 2:
         return det_ord2(matrix)
     else:
@@ -90,8 +100,7 @@ def det(matrix):
         i = 0
         for j in range(0, matrix.ord):
             determinante += ((-1) ** (i + j)) * matrix.grid[i][j] * det(matrix.undermatrix(i,j))
-            print("Matrice di partenza: \n", matrix, sep="")
-            print("Determinante: ", determinante)
+        
         return determinante
 
 
@@ -108,14 +117,12 @@ if __name__ == "__main__":
 
     for i in range(0, matrix.ord):
         for j in range(0, matrix.ord):
-            value = int(input(f"Insert value in position({i},{j}): "))
+            value = float(input(f"Insert value in position({i},{j}): "))
             matrix.grid[i].append(value)
 
     if boold: print(matrix)
 
-    #print(det(matrix))
-
-    matrix.undermatrix(2, 2)
+    print("Determinante =", det(matrix))
 
     print(matrix)
 
