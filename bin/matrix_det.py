@@ -46,6 +46,7 @@ class Matrix:
             string += str(self.grid[i]) + "\n"
         return string
 
+    @function_debugger
     def undermatrix(self, line, column):
         """
         """
