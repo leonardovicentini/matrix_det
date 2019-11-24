@@ -5,11 +5,11 @@ __version__ = "01_01"
 
 
 import os
+import argparse
 from functools import wraps
 
 
 boold = True
-
 
 
 def function_debugger(function):
@@ -81,7 +81,7 @@ def det_ord2(matrix_ord2):
     secondo_prodotto = matrix_ord2.grid[0][1] * matrix_ord2.grid[1][0]
     determinante = primo_prodotto - secondo_prodotto
 
-    print(f"Determinante di:\n{matrix_ord2}= {determinante}")
+    if boold: print(f"Determinante di:\n{matrix_ord2}= {determinante}")
 
     return determinante
 
@@ -104,12 +104,32 @@ def det(matrix):
         return determinante
 
 
+@function_debugger
+def get_order(arg):
+    """
+    """
+    order = 0
+    if arg:
+        order = arg
+    else:
+        order = input("Ordine della matrice: ")
+    
+    return order
+
+
 if __name__ == "__main__":
 
     if boold:
         print("Start main")
 
-    ord = 3
+    parser = argparse.ArgumentParser(description="Programma per il calcolo del determinante di una matrice.")
+    parser.add_argument("-v", "--verbose", help="Output verboso.", action="store_true")
+    parser.add_argument("-o", "--ord", help="Specificare l'ordine della matrice dalla cli.", type=int)
+    parser.add_argument("-f", "--file", help="Importare la matrice da un file .csv", type=str)
+
+    args = parser.parse_args()
+
+    ord = get_order(args.ord)
 
     matrix = Matrix(ord)
 
@@ -120,11 +140,9 @@ if __name__ == "__main__":
             value = float(input(f"Insert value in position({i},{j}): "))
             matrix.grid[i].append(value)
 
-    if boold: print(matrix)
+    print(matrix)
 
     print("Determinante =", det(matrix))
-
-    print(matrix)
 
     if boold:
         print("End main")
