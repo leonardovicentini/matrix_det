@@ -107,13 +107,24 @@ def det(matrix):
 @function_debugger
 def get_order(arg):
     """
+    Restituisce l'ordine della matrice da costruire.
+    :param arg: int Argomento passato al parametro opzionale -o
+    :return: int Ordine della matrice.
     """
     order = 0
     if arg:
         order = arg
     else:
-        order = input("Ordine della matrice: ")
-    
+        try:
+            order = int(input("Insert matrix order: "))
+            if order < 2:
+                print("Invalid int value.")
+                exit(-1)
+                
+        except ValueError:
+            print("Invalid int value.")
+            exit(-1)
+
     return order
 
 
