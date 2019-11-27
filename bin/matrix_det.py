@@ -120,12 +120,41 @@ def get_order(arg):
             if order < 2:
                 print("Invalid int value.")
                 exit(-1)
-                
+
         except ValueError:
             print("Invalid int value.")
             exit(-1)
 
     return order
+
+
+@function_debugger
+def check_file_matrix(file_path):
+    """
+    """
+    
+
+@function_debugger
+def matrix_from_file(file):
+    """
+    Ritorna una matrice da un file csv
+    :param file: str Percorso del file .csv
+    :return Matrix Matrice che contiene i valori del file .csv
+    """
+    with open(file, "r") as matrix_file:
+        lines = matrix_file.readlines()
+        order = len(lines)
+        matrix = Matrix(order)
+
+        for i in range(0, len(lines)):
+            str_line = lines[i].split(";")
+            float_line = [float(value) for value in str_line]
+
+            for value in float_line:
+                if boold: print(f"{value} added.")
+                matrix.grid[i].append(value)
+    
+    return matrix
 
 
 if __name__ == "__main__":
@@ -140,16 +169,20 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    ord = get_order(args.ord)
+    if args.file:
+        matrix = matrix_from_file(args.file)
+    
+    else:
+        ord = get_order(args.ord)
 
-    matrix = Matrix(ord)
+        matrix = Matrix(ord)
 
-    if boold: print(matrix)
+        if boold: print(matrix)
 
-    for i in range(0, matrix.ord):
-        for j in range(0, matrix.ord):
-            value = float(input(f"Insert value in position({i},{j}): "))
-            matrix.grid[i].append(value)
+        for i in range(0, matrix.ord):
+            for j in range(0, matrix.ord):
+                value = float(input(f"Insert value in position({i},{j}): "))
+                matrix.grid[i].append(value)
 
     print(matrix)
 
