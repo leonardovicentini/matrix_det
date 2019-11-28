@@ -162,8 +162,9 @@ if __name__ == "__main__":
     if boold:
         print("Start main")
 
-    parser = argparse.ArgumentParser(description="Programma per il calcolo del determinante di una matrice.")
+    parser = argparse.ArgumentParser(description="Programma per il calcolo del determinante di una matrice.", prog="matrix_det")
     parser.add_argument("-v", "--verbose", help="Output verboso.", action="store_true")
+    parser.add_argument("--version", help="show program version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("-o", "--ord", help="Specificare l'ordine della matrice dalla cli.", type=int)
     parser.add_argument("-f", "--file", help="Importare la matrice da un file .csv", type=str)
 
