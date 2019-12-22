@@ -7,6 +7,7 @@ __version__ = "01_01"
 import os
 import argparse
 from functools import wraps
+from tabulate import tabulate
 
 
 boold = False
@@ -41,6 +42,9 @@ class Matrix:
         self.ord = ord
 
     def __str__(self):
+        return tabulate(matrix.grid, tablefmt="grid")
+
+    def __repr__(self):
         string = ""
         for i in range(0, self.ord):
             string += str(self.grid[i]) + "\n"
