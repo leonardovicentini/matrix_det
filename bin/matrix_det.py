@@ -131,8 +131,29 @@ def get_order(arg):
 @function_debugger
 def check_file_matrix(file_path):
     """
+    Verifica che il file in ingresso sia adatto all'elaborazione.
+    :param file_path: str Percorso del file .csv
+    :return: bool True se adatto, False se non adatto.
     """
-    
+    check = True
+
+    with open(file_path, "r") as matrix_file:
+        lines = matrix_file.readlines()
+        column = len(lines)
+        
+        for line in lines:
+            values = line.strip("\n").split(";")
+            if len(values) != len(lines):
+                check = False
+            
+            for value in values:
+                try:
+                    float(value)
+                except ValueError:
+                    check = False
+
+    return check
+
 
 @function_debugger
 def matrix_from_file(file):
@@ -141,18 +162,41 @@ def matrix_from_file(file):
     :param file: str Percorso del file .csv
     :return Matrix Matrice che contiene i valori del file .csv
     """
-    with open(file, "r") as matrix_file:
-        lines = matrix_file.readlines()
-        order = len(lines)
-        matrix = Matrix(order)
+    if not check_file_matrix(file):
+        print("Wrong format.")
+    else:
+        with open(file, "r") as matrix_file:
+            lines = matrix_file.readlines()
+            order = len(lines)
+            matrix = Matrix(order)
 
-        for i in range(0, len(lines)):
-            str_line = lines[i].split(";")
-            float_line = [float(value) for value in str_line]
+            for i in range(0, len(lines)):
+                str_line = lines[i].split(";")
+                float_line = [float(value) for value in str_line]
 
-            for value in float_line:
-                if boold: print(f"{value} added.")
-                matrix.grid[i].append(value)
+                for value in float_line:
+                    if boold: print(f"{value} added.")
+                    matrix.grid[i].append(value)
+        
+        return matrix
+
+
+@function_debugger
+def matrix_from_input():
+    """
+    Ottiene la matrice da input.
+    :return: Matrix Matrice creata.
+    """
+    ord = get_order(args.ord)
+
+    matrix = Matrix(ord)
+
+    if boold: print(matrix)
+
+    for i in range(0, matrix.ord):
+        for j in range(0, matrix.ord):
+            value = float(input(f"Insert value in position({i},{j}): "))
+            matrix.grid[i].append(value)
     
     return matrix
 
@@ -174,20 +218,14 @@ if __name__ == "__main__":
         matrix = matrix_from_file(args.file)
     
     else:
-        ord = get_order(args.ord)
+        matrix = matrix_from_input()
 
-        matrix = Matrix(ord)
+    print(type(matrix))
 
-        if boold: print(matrix)
+    if type(matrix) == type(Matrix(1)):
+        print(matrix)
 
-        for i in range(0, matrix.ord):
-            for j in range(0, matrix.ord):
-                value = float(input(f"Insert value in position({i},{j}): "))
-                matrix.grid[i].append(value)
-
-    print(matrix)
-
-    print("Determinante =", det(matrix))
+        print("Determinante =", det(matrix))
 
     if boold:
         print("End main")
