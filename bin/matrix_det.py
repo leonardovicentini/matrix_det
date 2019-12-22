@@ -9,7 +9,7 @@ import argparse
 from functools import wraps
 
 
-boold = True
+boold = False
 
 
 def function_debugger(function):
@@ -115,15 +115,15 @@ def get_order(arg):
     if arg:
         order = arg
     else:
-        try:
-            order = int(input("Insert matrix order: "))
-            if order < 2:
-                print("Invalid int value.")
-                exit(-1)
+        valid_input = False
+        while not valid_input:
+            try:
+                order = int(input("Insert matrix order: "))
+                if order < 2: print("Invalid int value.")  
+                else: valid_input = True
 
-        except ValueError:
-            print("Invalid int value.")
-            exit(-1)
+            except ValueError:
+                print("Invalid int value.")
 
     return order
 
@@ -190,14 +190,22 @@ def matrix_from_input():
     ord = get_order(args.ord)
 
     matrix = Matrix(ord)
+    valid_input = False
 
     if boold: print(matrix)
 
     for i in range(0, matrix.ord):
         for j in range(0, matrix.ord):
-            value = float(input(f"Insert value in position({i},{j}): "))
-            matrix.grid[i].append(value)
-    
+            while not valid_input:
+                try:
+                    value = float(input(f"Insert value in position({i+1},{j+1}): "))
+                    valid_input = True
+                    matrix.grid[i].append(value)
+                except ValueError:
+                    print("Wrong input.")
+                    valid_input = False
+            valid_input = False
+
     return matrix
 
 
@@ -220,7 +228,6 @@ if __name__ == "__main__":
     else:
         matrix = matrix_from_input()
 
-    print(type(matrix))
 
     if type(matrix) == type(Matrix(1)):
         print(matrix)
