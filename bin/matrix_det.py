@@ -42,7 +42,7 @@ class Matrix:
         self.ord = ord
 
     def __str__(self):
-        return tabulate(matrix.grid, tablefmt="grid")
+        return tabulate(self.grid, tablefmt="grid")
 
     def __repr__(self):
         string = ""
@@ -69,7 +69,7 @@ class Matrix:
         for i in range(0, undermatrix.ord):
             del undermatrix.grid[i][column]
 
-        if boold: print("Sottomatrice:\n", undermatrix, sep="")
+        if boold or verbose: print("Undermatrix:\n", undermatrix, sep="")
 
         return undermatrix
 
@@ -85,7 +85,7 @@ def det_ord2(matrix_ord2):
     secondo_prodotto = matrix_ord2.grid[0][1] * matrix_ord2.grid[1][0]
     determinante = primo_prodotto - secondo_prodotto
 
-    if boold: print(f"Determinante di:\n{matrix_ord2}= {determinante}")
+    if boold or verbose: print(f"Det = {determinante}")
 
     return determinante
 
@@ -215,8 +215,7 @@ def matrix_from_input():
 
 if __name__ == "__main__":
 
-    if boold:
-        print("Start main")
+    if boold: print("Start main")
 
     parser = argparse.ArgumentParser(description="Programma per il calcolo del determinante di una matrice.", prog="matrix_det")
     parser.add_argument("-v", "--verbose", help="Output verboso.", action="store_true")
@@ -225,6 +224,8 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--file", help="Importare la matrice da un file .csv", type=str)
 
     args = parser.parse_args()
+
+    verbose = args.verbose
 
     if args.file:
         matrix = matrix_from_file(args.file)
@@ -236,7 +237,6 @@ if __name__ == "__main__":
     if type(matrix) == type(Matrix(1)):
         print(matrix)
 
-        print("Determinante =", det(matrix))
+        print("Det =", det(matrix))
 
-    if boold:
-        print("End main")
+    if boold: print("End main")
