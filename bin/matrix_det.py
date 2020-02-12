@@ -93,8 +93,8 @@ def det_ord2(matrix_ord2):
 @function_debugger
 def det(matrix):
     """
-    Data una matrice ne calcola dil determinante.
-    :param matrix: Matrix Matrice di cui calcloare il determinante.
+    Data una matrice ne calcola il determinante.
+    :param matrix: Matrix Matrice di cui calcolare il determinante.
     :return: float Determinante della matrice
     """
     if matrix.ord == 2:
