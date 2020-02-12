@@ -15,13 +15,6 @@ boold = False
 
 def function_debugger(function):
     function_debugger.__author__ = "Vicentini Leonardo"
-    """
-    Decoratore a scopo di debugging per le funzioni. Compariranno messaggi
-    'Start' e 'End' al fine di analizzare il comportamento dello script.
-    Si presume l'esistenza della variabile globale 'boold' e dell'importazione
-    di 'wraps' dal modulo della Standard Library 'functools'.
-    Happy debugging! :-)
-    """
     @wraps(function)
     def wrapper(*args, **kwargs):
         if boold: print(f"Start {function.__name__}()")
@@ -51,27 +44,27 @@ class Matrix:
         return string
 
     @function_debugger
-    def undermatrix(self, line, column):
+    def submatrix(self, line, column):
         """
         Crea una sottomatrice a partire da quella di partenza eliminando la riga e la colonna indicata.
         :param line: int Indice della linea da eliminare.
         :param column: int Indice della colonna da eliminare.
         :return: Matrix Sottomatrice di quella di partenza.
         """
-        undermatrix = Matrix(self.ord - 1)
-        undermatrix.grid = []
+        submatrix = Matrix(self.ord - 1)
+        submatrix.grid = []
 
         for subline in self.grid:
-            undermatrix.grid.append(subline.copy())
+            submatrix.grid.append(subline.copy())
 
-        del undermatrix.grid[line]
+        del submatrix.grid[line]
         
-        for i in range(0, undermatrix.ord):
-            del undermatrix.grid[i][column]
+        for i in range(0, submatrix.ord):
+            del submatrix.grid[i][column]
 
-        if boold or verbose: print("Undermatrix:\n", undermatrix, sep="")
+        if boold or verbose: print("submatrix:\n", submatrix, sep="")
 
-        return undermatrix
+        return submatrix
 
 
 @function_debugger
@@ -103,7 +96,7 @@ def det(matrix):
         determinante = 0
         i = 0
         for j in range(0, matrix.ord):
-            determinante += ((-1) ** (i + j)) * matrix.grid[i][j] * det(matrix.undermatrix(i,j))
+            determinante += ((-1) ** (i + j)) * matrix.grid[i][j] * det(matrix.submatrix(i,j))
         
         return determinante
 
@@ -217,11 +210,11 @@ if __name__ == "__main__":
 
     if boold: print("Start main")
 
-    parser = argparse.ArgumentParser(description="Programma per il calcolo del determinante di una matrice.", prog="matrix_det")
-    parser.add_argument("-v", "--verbose", help="Output verboso.", action="store_true")
+    parser = argparse.ArgumentParser(description="Program to get the determinant of a matrix.", prog="matrix_det")
+    parser.add_argument("-v", "--verbose", help="verbose output.", action="store_true")
     parser.add_argument("--version", help="show program version", action="version", version=f"%(prog)s {__version__}")
-    parser.add_argument("-o", "--ord", help="Specificare l'ordine della matrice dalla cli.", type=int)
-    parser.add_argument("-f", "--file", help="Importare la matrice da un file .csv", type=str)
+    parser.add_argument("-o", "--ord", help="specify the order as a parameter.", type=int)
+    parser.add_argument("-f", "--file", help="import matrix from a csv file", type=str)
 
     args = parser.parse_args()
 
