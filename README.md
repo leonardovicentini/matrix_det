@@ -12,7 +12,7 @@ Python3, tabulate
 
 Il programma può essere eseguito da terminale
 
-    $ pytohn3 marix_det.py
+    $ python3 marix_det.py
 
 In questo caso l'ordine e i valori della matrice sono richiesti come input all'utente.
 Tuttavia è possibile utilizzare i seguenti parametri opzionali per gestire diversamente
